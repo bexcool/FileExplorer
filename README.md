@@ -1,2 +1,2 @@
 # FileExplorer
- Console easy file explorer with many functions.
+ Easy file explorer with good looking UI in console.

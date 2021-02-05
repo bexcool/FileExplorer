@@ -34,6 +34,7 @@
 		<Unit filename="FileExplorer.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="colors.h" />
 		<Unit filename="fe_functions.h" />
 		<Extensions />
 	</Project>

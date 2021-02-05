@@ -12,13 +12,16 @@
     /*MAIN FUNCTION*/
 int main(void) {
 
-    char directory_url[10] = "";
-    char file_url[10] = "";
-    char lastDir[10] = "";
-    char lastDirFile[10] = "";
-    char file_content[10] = "";
+    char directory_url[1000] = "";
+    char file_url[1000] = "";
+    char lastDir[1000] = "";
+    char lastDirBackup[1000] = "";
+    char lastDirFile[1000] = "";
+    char file_content[1000] = "";
+    char root[1000] = "$root";
+    char abort[1000] = "$abort";
+    char file_textwrite[1000] = "";
 
-    int OpenedDirectory = 0;
     int action = 1;
     int c;
 
@@ -29,137 +32,193 @@ int main(void) {
 
     DIR *directory;
 
-    //testing();
+    text_color(COLOR_WHITE);
 
-    printf("\n-------------------------\nWelcome to File explorer!\n-------------------------");
+    text_color(COLOR_LIGHT_BLUE);
+    printf("\n-------------------------\n");
+    text_color(COLOR_WHITE);
+    printf("Welcome to File explorer!");
+    text_color(COLOR_LIGHT_BLUE);
+    printf("\n-------------------------");
+    text_color(COLOR_WHITE);
 
-    while(action!=10) {
-        if(OpenedDirectory==0){
-        printf("\n\n\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open directory from no root\n\t3. Open file\n\t4. Open file from no root\n\t",lastDir);
-        printf("5. Create file\n\t6. Create file from no root\n\t7. Copy file from no root\n\t8. Delete file from no root\n\t9. About\n\t10. Close application\n\nEnter number: ");
+    while(action!=8) {
+        if(strcmp(lastDir, "") == 0){
+        printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open file\n\t");
+        printf("3. Create file\n\t4. Copy file\n\t5. Delete file\n\t6. About\n\t7. Help\n\t8. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open directory from no root\n\t3. Open file\n\t4. Open file from no root\n\t5. About\n\t6. Close application\n\nEnter number: ",lastDir);
+        printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open file\n\t",lastDir);
+        printf("3. Create file\n\t4. Copy file\n\t5. Delete file\n\t6. About\n\t7. Help\n\t8. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
         switch(action){
             case 1:
+                text_color(7);
                 printf("\n\n\nOpen directory: %s",lastDir);
                 scanf("%s",&directory_url);
 
-                printf("End: %c",directory_url[(sizeof directory_url/sizeof directory_url[0])-1]);
+                //Check for commands
+                if(command(directory_url, lastDir) == 0) {
 
                 strcat(lastDir, directory_url);
                 strcpy(directory_url, lastDir);
 
-                //strlen
-
                 directory = opendir(directory_url);
 
-                printf("\nOpened directory: %s\nDirectory content:\n",directory_url);
+                if(directory == NULL) {
+                    text_color(COLOR_RED);
+                    printf("\nUnable to find directory '%s'.\n",directory_url);
+                    text_color(COLOR_WHITE);
+                    strcpy(lastDir, "");
+                } else {
+
+                text_color(COLOR_GREEN);
+                printf("\nOpened directory: %s",directory_url);
+                text_color(COLOR_WHITE);
+                printf("\nDirectory content:\n");
+                text_color(COLOR_LIGHT_BLUE);
                 printf("----------------------------------------------------------\n\n");
+                text_color(COLOR_WHITE);
                 printf("%c%c\n",CONNECT_LEFT_RIGHT,CONNECT_DOWN_LEFT);
 
                 if (directory) {
                     while ((dir = readdir(directory)) != NULL) {
-
                     printf(" %c %s\n",CONNECT_UP_DOWN_RIGHT,dir->d_name);
                     }
                     closedir(directory);
+                    }
+
+                if(directory_url[strlen(directory_url)-1] == '.') {
+                    strcpy(lastDir, lastDirBackup);
                 }
 
+                strcpy(lastDirBackup, lastDir); //Copies last directory to last directory backup
+
+                text_color(COLOR_LIGHT_BLUE);
                 printf("\n----------------------------------------------------------");
+                text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
                 getch();
-                OpenedDirectory=1;
+                }
+
                 break;
 
             case 2:
-                strcpy(lastDir, "");
+                printf("\n\n\nOpen file: %s",lastDir);
+                scanf("%s",&file_url);
 
-                printf("\n\n\nOpen directory: %s",lastDir);
-                scanf("%s",&directory_url);
+                if(command(file_url, lastDir) == 0) {
 
-                strcat(lastDir, directory_url);
-                strcpy(directory_url, lastDir);
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
 
-                directory = opendir(directory_url);
+                file = fopen(file_url, "r");
 
-                printf("\nOpened directory: %s\nDirectory content:\n",directory_url);
+                if(file == NULL) {
+                    text_color(COLOR_RED);
+                    printf("\nUnable to find file '%s'.\n",file_url);
+                    text_color(COLOR_WHITE);
+                    strcpy(lastDir, "");
+                } else {
+                text_color(COLOR_GREEN);
+                printf("\nOpened file: %s",file_url);
+                text_color(COLOR_WHITE);
+                printf("\nFile content:\n");
+                text_color(COLOR_LIGHT_BLUE);
                 printf("----------------------------------------------------------\n\n");
-                printf("%c%c\n",CONNECT_LEFT_RIGHT,CONNECT_DOWN_LEFT);
+                text_color(COLOR_WHITE);
 
-                if (directory) {
-                    while ((dir = readdir(directory)) != NULL) {
-
-                    printf(" %c %s\n",CONNECT_UP_DOWN_RIGHT,dir->d_name);
-                    }
-                    closedir(directory);
+                if (file) {
+                    while ((c = getc(file)) != EOF)
+                    putchar(c);
+                    fclose(file);
                 }
 
-                printf("\n----------------------------------------------------------");
+                text_color(COLOR_LIGHT_BLUE);
+                printf("\n\n----------------------------------------------------------");
+                text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
                 getch();
-                OpenedDirectory=1;
+                }
+
                 break;
 
             case 3:
-                printf("\n\n\nOpen file: %s",lastDir);
+                printf("\n\n\nCreate file: %s",lastDir);
                 scanf("%s",&file_url);
+
+                if(command(file_url, lastDir) == 0) {
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile);
 
-                file = fopen(file_url, "r");
+                file = fopen(file_url, "w");
 
-                printf("\nOpened file: %s\nFile content:\n",file_url);
-                printf("----------------------------------------------------------\n\n");
+                if(file == NULL) {
+                    text_color(COLOR_RED);
+                    printf("\nUnable to create file '%s'.\n",file_url);
+                    text_color(COLOR_WHITE);
+                    strcpy(lastDir, "");
+                } else {
+                text_color(COLOR_GREEN);
+                printf("\nCreated file: %s",file_url);
+                text_color(COLOR_WHITE);
+                printf("\nWrite text to file:\n\n");
+                scanf("%s",file_textwrite);
 
-                if (file) {
-                    while ((c = getc(file)) != EOF)
-                    putchar(c);
-                    fclose(file);
+                fputs(file_textwrite, file);
+                fclose(file);
+
+                text_color(COLOR_GREEN);
+                printf("\nText have been written to file.");
+                text_color(COLOR_WHITE);
                 }
 
-                printf("\n\n----------------------------------------------------------");
+                text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
                 getch();
-                OpenedDirectory=1;
-                break;
-
-            case 4:
-                strcpy(lastDir, "");
-
-                printf("\n\n\nOpen file: %s",lastDir);
-                scanf("%s",&file_url);
-
-                strcpy(lastDirFile, lastDir);
-                strcat(lastDirFile, file_url);
-                strcpy(file_url, lastDirFile);
-
-                file = fopen(file_url, "r");
-
-                printf("\nOpened file: %s\nFile content:\n",file_url);
-                printf("----------------------------------------------------------\n\n");
-
-                if (file) {
-                    while ((c = getc(file)) != EOF)
-                    putchar(c);
-                    fclose(file);
                 }
 
-                printf("\n\n----------------------------------------------------------");
-                printf("\n\nPress any key to continue.");
-                getch();
-                OpenedDirectory=0;
                 break;
 
-            case 9:
-                printf("\n\n\nFile explorer 1.1\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
+            case 6:
+                printf("\n\n\nFile explorer 1.2\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
+                text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
                 getch();
                 break;
+
+            case 7:
+                printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                break;
+
+            case 8:
+                text_color(COLOR_RED);
+                printf("\nClosing application...");
+                text_color(COLOR_WHITE);
+                return(0);
+
+            default:
+                text_color(COLOR_RED);
+                printf("\nYou have selected invalid action!");
+                text_color(COLOR_WHITE);
 
         }
     }
@@ -203,9 +262,4 @@ int main(void) {
                 break;
     */
     return(0);
-}
-
-    /*FUNCTION - Only testing characters*/
-void testing () {
-    printf("Char test: %c",191);
 }

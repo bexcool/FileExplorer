@@ -175,7 +175,8 @@ int main(void) {
                 printf("\nCreated file: %s",file_url);
                 text_color(COLOR_WHITE);
                 printf("\nWrite text to file:\n\n");
-                scanf("%s",file_textwrite);
+                scanf("%s",&file_textwrite);
+                printf("\na do nooo");
 
                 fputs(file_textwrite, file);
                 fclose(file);
@@ -183,13 +184,15 @@ int main(void) {
                 text_color(COLOR_GREEN);
                 printf("\nText have been written to file.");
                 text_color(COLOR_WHITE);
+                    }
+
                 }
 
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
 
                 break;
 

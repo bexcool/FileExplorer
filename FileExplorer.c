@@ -21,6 +21,7 @@ int main(void) {
     char root[1000] = "$root";
     char abort[1000] = "$abort";
     char file_textwrite[1000] = "";
+    char file_copyURL[1000] = "";
 
     int action = 1;
     int c;
@@ -29,26 +30,27 @@ int main(void) {
     struct stat filestat;
 
     FILE *file;
+    FILE *file_copydata;
 
     DIR *directory;
 
     text_color(COLOR_WHITE);
 
     text_color(COLOR_LIGHT_BLUE);
-    printf("\n-------------------------\n");
+    printf("\n-----------------------------\n");
     text_color(COLOR_WHITE);
-    printf("Welcome to File explorer!");
+    printf("Welcome to the File explorer!");
     text_color(COLOR_LIGHT_BLUE);
-    printf("\n-------------------------");
+    printf("\n-----------------------------");
     text_color(COLOR_WHITE);
 
-    while(action!=8) {
+    while(action!=11) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open file\n\t");
-        printf("3. Create file\n\t4. Copy file\n\t5. Delete file\n\t6. About\n\t7. Help\n\t8. Close application\n\nEnter number: ");
+        printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. About\n\t10. Help\n\t11. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Open file\n\t",lastDir);
-        printf("3. Create file\n\t4. Copy file\n\t5. Delete file\n\t6. About\n\t7. Help\n\t8. Close application\n\nEnter number: ");
+        printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. About\n\t10. Help\n\t11. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -108,7 +110,7 @@ int main(void) {
 
                 break;
 
-            case 2:
+            case 5:
                 printf("\n\n\nOpen file: %s",lastDir);
                 scanf("%s",&file_url);
 
@@ -153,7 +155,7 @@ int main(void) {
 
                 break;
 
-            case 3:
+            case 6:
                 printf("\n\n\nCreate file: %s",lastDir);
                 scanf("%s",&file_url);
 
@@ -175,8 +177,10 @@ int main(void) {
                 printf("\nCreated file: %s",file_url);
                 text_color(COLOR_WHITE);
                 printf("\nWrite text to file:\n\n");
-                scanf("%s",&file_textwrite);
-                printf("\na do nooo");
+                scanf("%d\n", &file_textwrite);
+                fgets(file_textwrite, 1000, stdin);
+
+                //Bere to postupne = array se rozdeli do mezer!
 
                 fputs(file_textwrite, file);
                 fclose(file);
@@ -184,19 +188,114 @@ int main(void) {
                 text_color(COLOR_GREEN);
                 printf("\nText have been written to file.");
                 text_color(COLOR_WHITE);
-                    }
-
                 }
 
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-
+                }
 
                 break;
 
-            case 6:
+            case 7:
+                printf("\n\n\nCopy file: %s",lastDir);
+                scanf("%s",&file_url);
+
+                char file_url_first[1000] = "";
+
+                strcpy(file_url_first, file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks if first scan is a command
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
+
+                file = fopen(file_url, "r");
+
+                if(file == NULL) {
+                    text_color(COLOR_RED);
+                    printf("\nUnable to find file '%s'.\n",file_url);
+                    text_color(COLOR_WHITE);
+                    strcpy(lastDir, "");
+                } else {
+
+                strcpy(file_url, "");
+
+                printf("\nCopy file to file: " );
+                scanf("%s",&file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks if second scan is a command
+
+                file_copydata = fopen(file_url, "w");
+
+                if(file_copydata == NULL) {
+                    text_color(COLOR_RED);
+                    printf("\nUnable to copy file '%s' to file '%s'.\n",file_url_first, file_url);
+                    text_color(COLOR_WHITE);
+                    strcpy(lastDir, "");
+                } else {
+
+                fseek(file, 0L, SEEK_END); // file pointer at end of file
+                int pos = ftell(file);
+                fseek(file, 0L, SEEK_SET); // file pointer set at start
+
+                while (pos--) {
+                    c = fgetc(file);  // copying file character by character
+                    fputc(c, file_copydata);
+                }
+
+                text_color(COLOR_GREEN);
+                printf("\nCopied file '%s' to file '%s'",file_url_first, file_url);
+                text_color(COLOR_WHITE);
+
+                fclose(file);
+                fclose(file_copydata);
+                }
+                } else {
+                    break; //Break case if second scan is a command
+                    }
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 8:
+                printf("\n\n\nDelete file: %s",lastDir);
+                scanf("%s",&file_url);
+
+                if(command(file_url, lastDir) == 0) {
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
+
+                int del = remove(file_url);
+                if (!del) {
+                    text_color(COLOR_GREEN);
+                    printf("\nFile '%s' was deleted.",file_url);
+                    text_color(COLOR_WHITE);
+                }else{
+                    text_color(COLOR_RED);
+                    printf("\nFile '%s' was not deleted.",file_url);
+                    text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 9:
                 printf("\n\n\nFile explorer 1.2\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -204,7 +303,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 7:
+            case 10:
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -212,7 +311,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 8:
+            case 11:
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

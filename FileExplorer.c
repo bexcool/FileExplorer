@@ -87,15 +87,31 @@ int main(void) {
                 if (directory) {
                     while ((dir = readdir(directory)) != NULL) {
                         printf(" %c %-40s",CONNECT_UP_DOWN_RIGHT,dir->d_name);
+
                         char time[100] = "";
                         struct stat stats;
                         char fileURL[500] = "";
 
                         strcat(fileURL, directory_url);
                         strcat(fileURL, dir->d_name);
+
                         stat(fileURL, &stats);
                         strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime( &stats.st_mtime));
-                        printf("\t<%s>\n", time);
+                        printf("\t<%s>",time);
+
+                        if(stats.st_mode == 16895){
+                            printf("\t  <DIR>");
+                        } else if(stats.st_mode == 33206) {
+                            printf("\t  <FILE>");
+                        } else {
+                            printf("\t\t");
+                        }
+
+                        if(stats.st_size > 0) {
+                            printf("\t%.2fKb", (float)stats.st_size/1000);
+                        }
+
+                        printf("\n");
                     }
                     closedir(directory);
                     }

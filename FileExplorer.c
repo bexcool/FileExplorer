@@ -44,13 +44,13 @@ int main(void) {
     printf("\n-----------------------------");
     text_color(COLOR_WHITE);
 
-    while(action!=11) {
+    while(action!=12) {
         if(strcmp(lastDir, "") == 0){
         printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t");
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. About\n\t10. Help\n\t11. Close application\n\nEnter number: ");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. About\n\t11. Help\n\t12. Close application\n\nEnter number: ");
         } else {
         printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. About\n\t10. Help\n\t11. Close application\n\nEnter number: ");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. About\n\t11. Help\n\t12. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -292,7 +292,7 @@ int main(void) {
                 break;
 
             case 8:
-                printf("\n\n\nDelete file: %s",lastDir);
+                printf("\n\n\nRun file: %s",lastDir);
                 scanf("%s",&file_url);
 
                 if(command(file_url, lastDir) == 0) {
@@ -321,6 +321,40 @@ int main(void) {
                 break;
 
             case 9:
+                printf("\n\n\nRun file: %s",lastDir);
+                scanf("%s",&file_url);
+
+                if(command(file_url, lastDir) == 0) {
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
+
+                printf("\n");
+
+                text_color(COLOR_RED);
+                int result=system(file_url);
+                text_color(COLOR_WHITE);
+
+                if(result == 1) {
+                    text_color(COLOR_RED);
+                    printf("\nFile '%s' could not be run.",file_url);
+                    text_color(COLOR_WHITE);
+                }else{
+                    text_color(COLOR_GREEN);
+                    printf("File '%s' has been run.",file_url);
+                    text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 10:
                 printf("\n\n\nFile explorer 1.2\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -328,7 +362,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 10:
+            case 11:
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -336,7 +370,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 11:
+            case 12:
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

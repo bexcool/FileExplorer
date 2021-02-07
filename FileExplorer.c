@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "fe_functions.h"
 
 
@@ -50,13 +52,24 @@ int main(void) {
     printf("\n-----------------------------");
     text_color(COLOR_WHITE);
 
-    while(action!=12) {
+
+
+
+
+    //TODO: ADD COMMENTS, ADD DIR RENAME AND FILE RENAME
+
+
+
+
+
+
+    while(action!=13) {
         if(strcmp(lastDir, "") == 0){
         printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t");
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. About\n\t11. Help\n\t12. Close application\n\nEnter number: ");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. File or directory properties\n\t11. About\n\t12. Help\n\t13. Close application\n\nEnter number: ");
         } else {
         printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. About\n\t11. Help\n\t12. Close application\n\nEnter number: ");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Run file\n\t10. File or directory properties\n\t11. About\n\t12. Help\n\t13. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -189,7 +202,7 @@ int main(void) {
 
             case 6:
                 printf("\n\n\nCreate file: %s",lastDir);
-                scanf("%s",&file_url);
+                scanf("%d",&file_url);
                 gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
@@ -233,7 +246,7 @@ int main(void) {
 
             case 7:
                 printf("\n\n\nCopy file: %s",lastDir);
-                scanf("%s",&file_url);
+                scanf("%d",&file_url);
                 gets(file_url);
 
                 char file_url_first[1000] = "";
@@ -302,7 +315,7 @@ int main(void) {
 
             case 8:
                 printf("\n\n\nDelete file: %s",lastDir);
-                scanf("%s",&file_url);
+                scanf("%d",&file_url);
                 gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
@@ -346,7 +359,7 @@ int main(void) {
 
             case 9:
                 printf("\n\n\nRun file: %s",lastDir);
-                scanf("%s",&file_url);
+                scanf("%d",&file_url);
                 gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
@@ -380,6 +393,62 @@ int main(void) {
                 break;
 
             case 10:
+                printf("\n\n\nOpen properties from: %s",lastDir);
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                //Check for commands
+                if(command(file_url, lastDir) == 0) {
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
+
+                text_color(COLOR_GREEN);
+                printf("\nOpened properties: %s",file_url);
+                text_color(COLOR_WHITE);
+                printf("\n\nProperties:\n\n");
+                text_color(COLOR_LIGHT_BLUE);
+                text_color(COLOR_WHITE);
+
+                printf("URL:\t\t\t%s\n",file_url);
+
+                char time[100] = "";
+                struct stat stats;
+
+                stat(file_url, &stats);
+                strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_mtime));
+                printf("Last modified time:\t%s\n",time);
+
+                if(stats.st_mode == 16895 || stats.st_mode == 16749){
+                    printf("Type:\t\t\tDIR");
+                } else if(stats.st_mode == 33206) {
+                    printf("Type:\t\t\tFILE");
+                } else {
+                    printf("Type:\t\t\tUNKNOWN");
+                }
+
+                if(stats.st_size > 0) {
+                    printf("\nSize:\t\t\t%.2fKb (%d bytes)", (float)stats.st_size/1000, stats.st_size);
+                }
+
+                printf("\n");
+                }
+
+                if(directory_url[strlen(directory_url)-1] == '.') {
+                    strcpy(lastDir, lastDirBackup);
+                }
+
+                strcpy(lastDirBackup, lastDir); //Copies last directory to last directory backup
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+
+                break;
+
+            case 11:
                 printf("\n\n\nFile explorer 1.2\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -387,7 +456,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 11:
+            case 12:
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -395,7 +464,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 12:
+            case 13:
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

@@ -408,44 +408,5 @@ int main(void) {
 
         }
     }
-    /*
-                --- Wanted to add last changed date to directories, but they use \n after %s. ---
-
-                printf("\nOpen directory: %s",lastDir);
-                scanf("%s",&directory_url);
-                printf("\n");
-
-                strcat(lastDir, directory_url);
-                strcpy(directory_url, lastDir);
-
-                struct dirent *dir;
-                directory = opendir(directory_url);
-
-                struct stat filestat;
-
-                printf("\nOpened directory: %s\nDirectory content:\n",directory_url);
-                printf("----------------------------------------------------------\n\n");
-
-                if (directory) {
-                    while ((dir = readdir(directory)) != NULL) {
-                    char fileModifyTime[10000] = "";
-
-                    strcpy(fileModifyTime,directory_url);
-                    strcat(fileModifyTime,"/");
-                    strcat(fileModifyTime,dir->d_name);
-
-                    stat(fileModifyTime,&filestat);
-
-                    printf("%s\t\t%c%s%c",dir->d_name,60,ctime(&filestat.st_mtime),62);
-                    }
-                    closedir(directory);
-                }
-
-                printf("\n----------------------------------------------------------");
-                printf("\n\nPress any key to continue.");
-                getch();
-                OpenedDirectory=1;
-                break;
-    */
     return(0);
 }

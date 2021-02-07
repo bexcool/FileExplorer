@@ -143,7 +143,7 @@ int main(void) {
 
             case 5:
                 printf("\n\n\nOpen file: %s",lastDir);
-                scanf("%s",&file_url);
+                scanf("%d",&file_url);
                 gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {

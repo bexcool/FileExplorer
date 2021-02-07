@@ -147,7 +147,7 @@ int main(void) {
 
                 printf(" %c\n %c%c Amount of directories: %d",CONNECT_UP_DOWN, CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, dirCount);
                 printf("\n %c%c Amount of files: %d",CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, filesCount);
-                printf("\n %c%c Total amount of all files and directories: %d",CONNECT_UP_RIGHT, CONNECT_LEFT_RIGHT, contentCount);
+                printf("\n %c%c Total directory content: %d",CONNECT_UP_RIGHT, CONNECT_LEFT_RIGHT, contentCount);
 
                 if(directory_url[strlen(directory_url)-1] == '.') {
                     strcpy(lastDir, lastDirBackup);

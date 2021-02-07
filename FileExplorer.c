@@ -11,7 +11,9 @@
 
 #define CONNECT_UP_DOWN_RIGHT 195
 #define CONNECT_DOWN_LEFT 191
+#define CONNECT_UP_RIGHT 192
 #define CONNECT_LEFT_RIGHT 196
+#define CONNECT_UP_DOWN 179
 
     /*MAIN FUNCTION*/
 int main(void) {
@@ -103,9 +105,13 @@ int main(void) {
                 text_color(COLOR_WHITE);
                 printf("%c%c\n",CONNECT_LEFT_RIGHT,CONNECT_DOWN_LEFT);
 
+                int contentCount = 0, filesCount = 0, dirCount = 0;
+
                 if (directory) {
                     while ((dir = readdir(directory)) != NULL) {
                         printf(" %c %-40s",CONNECT_UP_DOWN_RIGHT,dir->d_name);
+
+                        contentCount++;
 
                         char time[100] = "";
                         struct stat stats;
@@ -118,10 +124,14 @@ int main(void) {
                         strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime( &stats.st_mtime));
                         printf("\t<%s>",time);
 
-                        if(stats.st_mode == 16895){
+                        if(stats.st_mode == 16895 || stats.st_mode == 16749){
                             printf("\t  <DIR>");
+                            dirCount++;
                         } else if(stats.st_mode == 33206) {
                             printf("\t  <FILE>");
+                            filesCount++;
+                        } else if(stats.st_mode == 33279) {
+                            printf("\t  <EXE>");
                         } else {
                             printf("\t\t");
                         }
@@ -134,6 +144,10 @@ int main(void) {
                     }
                     closedir(directory);
                     }
+
+                printf(" %c\n %c%c Amount of directories: %d",CONNECT_UP_DOWN, CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, dirCount);
+                printf("\n %c%c Amount of files: %d",CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, filesCount);
+                printf("\n %c%c Total amount of all files and directories: %d",CONNECT_UP_RIGHT, CONNECT_LEFT_RIGHT, contentCount);
 
                 if(directory_url[strlen(directory_url)-1] == '.') {
                     strcpy(lastDir, lastDirBackup);
@@ -411,25 +425,31 @@ int main(void) {
                 text_color(COLOR_LIGHT_BLUE);
                 text_color(COLOR_WHITE);
 
-                printf("URL:\t\t\t%s\n",file_url);
+                printf("URL:\t\t\t\t%s\n",file_url);
 
                 char time[100] = "";
                 struct stat stats;
 
                 stat(file_url, &stats);
                 strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_mtime));
-                printf("Last modified time:\t%s\n",time);
+                printf("Last modified time:\t\t%s\n",time);
+                strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_atime));
+                printf("Last access time:\t\t%s\n",time);
+                strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_ctime));
+                printf("Last status change time:\t%s\n",time);
 
                 if(stats.st_mode == 16895 || stats.st_mode == 16749){
-                    printf("Type:\t\t\tDIR");
+                    printf("Type:\t\t\t\tDIR (%d)", stats.st_mode);
                 } else if(stats.st_mode == 33206) {
-                    printf("Type:\t\t\tFILE");
+                    printf("Type:\t\t\t\tFILE (%d)", stats.st_mode);
+                } else if(stats.st_mode == 33279) {
+                    printf("Type:\t\t\t\tEXE (%d)", stats.st_mode);
                 } else {
-                    printf("Type:\t\t\tUNKNOWN");
+                    printf("Type:\t\t\t\tUNKNOWN (%d)", stats.st_mode);
                 }
 
                 if(stats.st_size > 0) {
-                    printf("\nSize:\t\t\t%.2fKb (%d bytes)", (float)stats.st_size/1000, stats.st_size);
+                    printf("\nSize:\t\t\t\t%.2fKb (%d bytes)", (float)stats.st_size/1000, stats.st_size);
                 }
 
                 printf("\n");

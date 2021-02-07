@@ -4,17 +4,17 @@
 	<ActiveTarget name="Release" />
 	<File name="FileExplorer.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1313" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="fe_functions.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="339" topLine="0" />
+			<Cursor1 position="438" topLine="414" />
 		</Cursor>
 	</File>
 	<File name="colors.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="347" topLine="5" />
+			<Cursor1 position="398" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="fe_functions.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="508" topLine="0" />
 		</Cursor>
 	</File>
 	<Target name="Debug" top="FileExplorer.c">

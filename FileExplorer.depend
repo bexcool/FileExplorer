@@ -1,11 +1,13 @@
 # depslib dependency file v1.0
-1612713447 source:f:\c projets\fileexplorer\fileexplorer.c
+1612735139 source:f:\c projets\fileexplorer\fileexplorer.c
 	<dirent.h>
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
 	<ctype.h>
 	<sys/stat.h>
+	<sys/types.h>
+	<unistd.h>
 	"fe_functions.h"
 
 1612655568 f:\c projets\fileexplorer\fe_functions.h

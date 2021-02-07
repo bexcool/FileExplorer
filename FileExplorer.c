@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <sys/stat.h>
 #include "fe_functions.h"
+
 
 #define CONNECT_UP_DOWN_RIGHT 195
 #define CONNECT_DOWN_LEFT 191
@@ -36,6 +38,10 @@ int main(void) {
 
     text_color(COLOR_WHITE);
 
+    text_color(COLOR_INVISIBLE);
+    printf("I1C jsou borci");
+    text_color(COLOR_WHITE);
+
     text_color(COLOR_LIGHT_BLUE);
     printf("\n-----------------------------\n");
     text_color(COLOR_WHITE);
@@ -56,7 +62,6 @@ int main(void) {
 
         switch(action){
             case 1:
-                text_color(7);
                 printf("\n\n\nOpen directory: %s",lastDir);
                 scanf("%s",&directory_url);
 
@@ -292,7 +297,7 @@ int main(void) {
                 break;
 
             case 8:
-                printf("\n\n\nRun file: %s",lastDir);
+                printf("\n\n\nDelete file: %s",lastDir);
                 scanf("%s",&file_url);
 
                 if(command(file_url, lastDir) == 0) {
@@ -301,16 +306,30 @@ int main(void) {
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile);
 
-                int del = remove(file_url);
-                if (!del) {
+                char decision;
+                text_color(COLOR_RED);
+                printf("\nAre you sure to delete file '%s'? (YES/NO)\n",file_url);
+                text_color(COLOR_WHITE);
+                scanf(" %c",&decision);
+
+                if(decision == 'y' || decision == 'Y') {
+                        int del = remove(file_url);
+                        if (!del) {
+                            text_color(COLOR_GREEN);
+                            printf("\nFile '%s' was deleted.",file_url);
+                            text_color(COLOR_WHITE);
+                    }else{
+                        text_color(COLOR_RED);
+                        printf("\nFile '%s' was not deleted.",file_url);
+                        text_color(COLOR_WHITE);
+                    }
+                }else if(decision == 'n' || decision == 'N') {
                     text_color(COLOR_GREEN);
-                    printf("\nFile '%s' was deleted.",file_url);
-                    text_color(COLOR_WHITE);
-                }else{
-                    text_color(COLOR_RED);
                     printf("\nFile '%s' was not deleted.",file_url);
                     text_color(COLOR_WHITE);
                 }
+
+
 
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");

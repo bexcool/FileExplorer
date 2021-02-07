@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#define COLOR_LOW_GRAY 0
+#define COLOR_INVISIBLE 0
 #define COLOR_LOW_BLUE 1
 #define COLOR_LOW_GREEN 2
 #define COLOR_LOW_LIGHT_BLUE 3

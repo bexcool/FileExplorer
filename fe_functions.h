@@ -21,16 +21,13 @@ void delay(int number_of_seconds) {
 
 int command(char url[1000], char lastDir[1000]) {
 
-    char root[1000] = "$root";
-    char abort[1000] = "$abort";
-
-    if(strcmp(url, root) == 0){
+    if(strcmp(url, "$root") == 0){
         strcpy(lastDir, "");
         text_color(COLOR_YELLOW);
         printf("\nRemoved current URL.");
         text_color(COLOR_WHITE);
         return(lastDir);
-        }else if(strcmp(url, abort) == 0) {
+        }else if(strcmp(url, "$abort") == 0) {
                     text_color(COLOR_YELLOW);
                     printf("\nAborted current action.");
                     text_color(COLOR_WHITE);

@@ -63,7 +63,8 @@ int main(void) {
         switch(action){
             case 1:
                 printf("\n\n\nOpen directory: %s",lastDir);
-                scanf("%s",&directory_url);
+                scanf("%d", &directory_url);
+                gets(directory_url);
 
                 //Check for commands
                 if(command(directory_url, lastDir) == 0) {
@@ -143,6 +144,7 @@ int main(void) {
             case 5:
                 printf("\n\n\nOpen file: %s",lastDir);
                 scanf("%s",&file_url);
+                gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
 
@@ -188,6 +190,7 @@ int main(void) {
             case 6:
                 printf("\n\n\nCreate file: %s",lastDir);
                 scanf("%s",&file_url);
+                gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
 
@@ -231,6 +234,7 @@ int main(void) {
             case 7:
                 printf("\n\n\nCopy file: %s",lastDir);
                 scanf("%s",&file_url);
+                gets(file_url);
 
                 char file_url_first[1000] = "";
 
@@ -299,6 +303,7 @@ int main(void) {
             case 8:
                 printf("\n\n\nDelete file: %s",lastDir);
                 scanf("%s",&file_url);
+                gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
 
@@ -342,6 +347,7 @@ int main(void) {
             case 9:
                 printf("\n\n\nRun file: %s",lastDir);
                 scanf("%s",&file_url);
+                gets(file_url);
 
                 if(command(file_url, lastDir) == 0) {
 

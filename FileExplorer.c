@@ -75,7 +75,7 @@ int main(void) {
 
 
 
-    while(action!=13) {
+    while(action!=15) {
         if(strcmp(lastDir, "") == 0){
         printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Delete directory\n\t6. Open file\n\t");
         printf("7. Create file\n\t8. Rename file\n\t9. Copy file\n\t10. Delete file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
@@ -177,7 +177,7 @@ int main(void) {
 
                 break;
 
-            case 5:
+            case 6:
                 printf("\n\n\nOpen file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -223,7 +223,7 @@ int main(void) {
 
                 break;
 
-            case 6:
+            case 7:
                 printf("\n\n\nCreate file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -265,7 +265,7 @@ int main(void) {
 
                 break;
 
-            case 7:
+            case 9:
                 printf("\n\n\nCopy file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -334,7 +334,7 @@ int main(void) {
 
                 break;
 
-            case 8:
+            case 10:
                 printf("\n\n\nDelete file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -378,7 +378,7 @@ int main(void) {
 
                 break;
 
-            case 9:
+            case 11:
                 printf("\n\n\nRun file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -413,7 +413,7 @@ int main(void) {
 
                 break;
 
-            case 10:
+            case 12:
                 printf("\n\n\nOpen properties from: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -474,15 +474,15 @@ int main(void) {
 
                 break;
 
-            case 11: //About section
-                printf("\n\n\nFile explorer 1.2\nPetr Pavlik 1/2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
+            case 13: //About section
+                printf("\n\n\nFile explorer 1.2\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
                 break;
 
-            case 12: //Commands section
+            case 14: //Commands section
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -490,7 +490,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 13: //Close section
+            case 15: //Close section
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

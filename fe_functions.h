@@ -4,6 +4,8 @@
  * BeXCool 2020
  * Petr Pavlik <bxc@post.cz>
  *
+ * [APACHE LICENSE 2.0 - "./LICENSE.md"]
+ *
  */
 
 

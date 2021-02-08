@@ -36,6 +36,7 @@
 		</Unit>
 		<Unit filename="colors.h" />
 		<Unit filename="fe_functions.h" />
+		<Unit filename="license.txt" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

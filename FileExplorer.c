@@ -18,7 +18,6 @@
 #include <unistd.h>
 #include "fe_functions.h"
 
-
 #define CONNECT_UP_DOWN_RIGHT 195
 #define CONNECT_DOWN_LEFT 191
 #define CONNECT_UP_RIGHT 192
@@ -87,7 +86,7 @@ int main(void) {
         scanf("%d",&action);
 
         switch(action){ //Checks for action
-            case 1:
+            case 1: //Open directory
                 printf("\n\n\nOpen directory: %s",lastDir); //Gets URL from user
                 scanf("%c", &directory_url);
                 gets(directory_url);
@@ -177,7 +176,7 @@ int main(void) {
 
                 break;
 
-            case 2:
+            case 2: //Create directory
                 printf("\n\n\nCreate directory: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -211,7 +210,7 @@ int main(void) {
 
                 break;
 
-            case 6:
+            case 6: //Open file
                 printf("\n\n\nOpen file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -257,7 +256,7 @@ int main(void) {
 
                 break;
 
-            case 7:
+            case 7: //Create file
                 printf("\n\n\nCreate file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -299,7 +298,7 @@ int main(void) {
 
                 break;
 
-            case 8:
+            case 8: //Rename file
                 printf("\n\n\nRename file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -338,7 +337,7 @@ int main(void) {
 
                 break;
 
-            case 9:
+            case 9: //Copy file
                 printf("\n\n\nCopy file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -407,7 +406,7 @@ int main(void) {
 
                 break;
 
-            case 10:
+            case 10: //Delete file
                 printf("\n\n\nDelete file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -451,7 +450,7 @@ int main(void) {
 
                 break;
 
-            case 11:
+            case 11: //Run file
                 printf("\n\n\nRun file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -486,7 +485,7 @@ int main(void) {
 
                 break;
 
-            case 12:
+            case 12: //Properties
                 printf("\n\n\nOpen properties from: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -545,7 +544,7 @@ int main(void) {
 
                 break;
 
-            case 13: //About section
+            case 13: //About
                 printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -553,7 +552,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 14: //Commands section
+            case 14: //Commands
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -561,7 +560,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 15: //Close section
+            case 15: //Close
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

@@ -1,3 +1,12 @@
+
+/** Functions for File Explorer
+ *
+ * BeXCool 2020
+ * Petr Pavlik <bxc@post.cz>
+ *
+ */
+
+
 #ifndef FE_FUNCTIONS_H_INCLUDED
 #define FE_FUNCTIONS_H_INCLUDED
 #endif // FE_FUNCTIONS_H_INCLUDED

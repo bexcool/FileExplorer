@@ -1,16 +1,15 @@
 
-/*
-*   Command line colors
-*
-*   02/2021
-*   Petr Pavlik <bxc@post.cz>
-*
-*   This header function is for adding colors easily to your command line interface.
-*
-*   Use like this:
-*   text_color(COLOR);
-*
-*/
+/**  Command line colors
+ *
+ *   02/2021
+ *   Petr Pavlik <bxc@post.cz>
+ *
+ *   This header function is for adding colors easily to your command line interface.
+ *
+ *   Use like this:
+ *   text_color(COLOR);
+ *
+ */
 
 #ifndef COLORS_H_INCLUDED
 #define COLORS_H_INCLUDED

@@ -38,6 +38,7 @@ int main(void) {
     char abort[1000] = "$abort";
     char file_textwrite[1000] = "";
     char file_copyURL[1000] = "";
+    char cwd[1000] = "";
 
     int action = 1;
     int c;
@@ -68,7 +69,7 @@ int main(void) {
 
 
 
-    //TODO: ADD COMMENTS, ADD DIR RENAME AND FILE RENAME
+    //TODO: ADD COMMENTS, ADD DIR RENAME, FILE RENAME AND CHECK IF LAST CHAR FROM URL IS / IF NOT ADD /
 
 
 
@@ -88,7 +89,7 @@ int main(void) {
         switch(action){ //Checks for action
             case 1:
                 printf("\n\n\nOpen directory: %s",lastDir); //Gets URL from user
-                scanf("%d", &directory_url);
+                scanf("%c", &directory_url);
                 gets(directory_url);
 
                 if(command(directory_url, lastDir) == 0) { //Check for commands
@@ -106,7 +107,8 @@ int main(void) {
                 } else {
 
                 text_color(COLOR_GREEN);
-                printf("\nOpened directory: %s",directory_url);
+                chdir(directory_url); //Sets current working dir
+                printf("\nOpened directory: %s",getcwd(cwd, 1000));
                 text_color(COLOR_WHITE);
                 printf("\nDirectory content:\n");
                 text_color(COLOR_LIGHT_BLUE);
@@ -131,6 +133,7 @@ int main(void) {
 
                         stat(fileURL, &stats);
                         strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime( &stats.st_mtime)); //Reading time
+
                         printf("\t<%s>",time);
 
                         if(stats.st_mode == 16895 || stats.st_mode == 16749){ //Reading type
@@ -153,20 +156,51 @@ int main(void) {
                     }
                     closedir(directory); //Closing directory
                     }
+                strcpy(lastDir, cwd);
 
                 printf(" %c\n %c%c Amount of directories: %d",CONNECT_UP_DOWN, CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, dirCount); //Printing amount of directories
                 printf("\n %c%c Amount of files: %d",CONNECT_UP_DOWN_RIGHT, CONNECT_LEFT_RIGHT, filesCount); //Printing amount of files
                 printf("\n %c%c Total directory content: %d",CONNECT_UP_RIGHT, CONNECT_LEFT_RIGHT, contentCount); //Printing total directory content
-
-                if(directory_url[strlen(directory_url)-1] == '.') { //Checks if last char from URL is '.'
-                    strcpy(lastDir, lastDirBackup);
-                }
 
                 strcpy(lastDirBackup, lastDir); //Copies last directory to last directory backup
 
                 text_color(COLOR_LIGHT_BLUE);
                 printf("\n----------------------------------------------------------");
                 text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 2:
+                printf("\n\n\nCreate directory: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+                struct stat st = {0};
+
+                if(command(file_url, lastDir) == 0) {
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+                strcpy(lastDir, file_url);
+
+                chdir(lastDir); //Sets current working directory
+
+                if (stat(file_url, &st) == -1) { //Checks if directory exists
+                    mkdir(file_url); //Creates new directory if directory does not exist
+                    text_color(COLOR_GREEN);
+                    printf("\nCreated directory '%s'.",getcwd(lastDir, 1000));
+                    text_color(COLOR_WHITE);
+                } else {
+                    text_color(COLOR_RED);
+                    printf("\nDirectory '%s' already exists.",getcwd(lastDir, 1000));
+                    text_color(COLOR_WHITE);
                 }
 
                 text_color(COLOR_YELLOW);
@@ -255,6 +289,45 @@ int main(void) {
                 text_color(COLOR_GREEN);
                 printf("\nText have been written to file.");
                 text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 8:
+                printf("\n\n\nRename file: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks for commands
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+
+                char newFileName[1000] = "";
+
+                printf("\n\n\nNew file name: %s",lastDir); //Gets new file name from user
+                scanf("%d",&newFileName);
+                gets(newFileName);
+
+                strcat(chdir("."), newFileName);
+
+                int renameResult = rename(file_url, newFileName);
+
+                if(renameResult == 0) {
+                    text_color(COLOR_GREEN);
+                    printf("File has been renamed.");
+                    text_color(COLOR_WHITE);
+                } else {
+                    text_color(COLOR_RED);
+                    printf("File has not been renamed.");
+                    text_color(COLOR_WHITE);
                 }
 
                 text_color(COLOR_YELLOW);
@@ -364,7 +437,7 @@ int main(void) {
                     }
                 }else if(decision == 'n' || decision == 'N') {
                     text_color(COLOR_GREEN);
-                    printf("\nFile '%s' was not deleted.",file_url);
+                    printf("\nFile '%s' has not deleted.",file_url);
                     text_color(COLOR_WHITE);
                 }
 
@@ -424,6 +497,8 @@ int main(void) {
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
+                chdir(file_url); //Sets current working dir
+
                 text_color(COLOR_GREEN);
                 printf("\nOpened properties: %s",file_url);
                 text_color(COLOR_WHITE);
@@ -431,7 +506,7 @@ int main(void) {
                 text_color(COLOR_LIGHT_BLUE);
                 text_color(COLOR_WHITE);
 
-                printf("URL:\t\t\t\t%s\n",file_url);
+                printf("URL:\t\t\t\t%s\n",getcwd(cwd, 1000));
 
                 char time[100] = "";
                 struct stat stats;
@@ -454,16 +529,12 @@ int main(void) {
                     printf("Type:\t\t\t\tUNKNOWN (%d)", stats.st_mode);
                 }
 
-                if(stats.st_size > 0) { //Checks if file size is larger than 0
-                    printf("\nSize:\t\t\t\t%.2fKb (%d bytes)", (float)stats.st_size/1000, stats.st_size);
-                }
-
                 printf("\n");
                 }
 
-                if(directory_url[strlen(directory_url)-1] == '.') { //Checks if last character from URL is '.'
+                /*if(directory_url[strlen(directory_url)-1] == '.') { //Checks if last character from URL is '.'
                     strcpy(lastDir, lastDirBackup);
-                }
+                }*/
 
                 strcpy(lastDirBackup, lastDir); //Copies last directory to last directory backup
 

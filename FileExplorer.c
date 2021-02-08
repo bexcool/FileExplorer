@@ -77,11 +77,11 @@ int main(void) {
 
     while(action!=16) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Cut directory\n\t6. Delete directory\n\t7. Open file\n\t");
-        printf("8. Create file\n\t9. Rename file\n\t10. Copy file\n\t11. Cut file\n\t12. Delete file\n\t13. Run file\n\t14. File or directory properties\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Cut directory\n\t5. Delete directory\n\t6. Open file\n\t");
+        printf("7. Create file\n\t8. Copy file\n\t9. Cut file\n\t10. Delete file\n\t11. Rename directory or file\n\t12. Run file\n\t13. File or directory properties\n\t14. About\n\t15. Help\n\t16. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Cut directory\n\t6. Delete directory\n\t7. Open file\n\t",lastDir);
-        printf("8. Create file\n\t9. Rename file\n\t10. Copy file\n\t11. Cut file\n\t12. Delete file\n\t13. Run file\n\t14. File or directory properties\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Cut directory\n\t5. Delete directory\n\t6. Open file\n\t",lastDir);
+        printf("7. Create file\n\t8. Copy file\n\t9. Cut file\n\t10. Delete file\n\t11. Rename directory or file\n\t12. Run file\n\t13. File or directory properties\n\t14. About\n\t15. Help\n\t16. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -96,7 +96,7 @@ int main(void) {
                 strcat(lastDir, directory_url);
                 strcpy(directory_url, lastDir); //Copy strings into directory_url
 
-                if(directory_url[strlen(directory_url)-1] != '/' || directory_url[strlen(directory_url)-1] != '\\') { //Checks if last character from URL is '/' or '\'
+                if(directory_url[strlen(directory_url)-1] != '/' || directory_url[strlen(directory_url)-1] != '\\' && directory_url[strlen(directory_url)-1] != '%') { //Checks if last character from URL is '/' or '\'
                     strcat(directory_url, "/");
                 }
 
@@ -115,7 +115,7 @@ int main(void) {
                 text_color(COLOR_WHITE);
                 printf("\nDirectory content:\n");
                 text_color(COLOR_LIGHT_BLUE);
-                printf("----------------------------------------------------------\n\n");
+                printf("----------------------------------------------------------\n");
                 text_color(COLOR_WHITE);
                 printf("%c%c\n",CONNECT_LEFT_RIGHT,CONNECT_DOWN_LEFT);
 
@@ -214,7 +214,7 @@ int main(void) {
 
                 break;
 
-            case 7: //Open file
+            case 6: //Open file
                 printf("\n\n\nOpen file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -260,7 +260,7 @@ int main(void) {
 
                 break;
 
-            case 8: //Create file
+            case 7: //Create file
                 printf("\n\n\nCreate file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -302,57 +302,7 @@ int main(void) {
 
                 break;
 
-            case 9: //Rename file
-                printf("\n\n\nRename file: %s",lastDir); //Gets URL from user
-                scanf("%d",&file_url);
-                gets(file_url);
-
-                if(command(file_url, lastDir) == 0) { //Checks for commands
-
-                strcpy(lastDirFile, lastDir);
-                strcat(lastDirFile, file_url);
-                strcpy(file_url, lastDirFile); //Copies strings
-
-                char newFileName[1000] = "";
-
-                printf("\n\nNew file name: %s",lastDir); //Gets new file name from user
-                scanf("%d",&newFileName);
-                gets(newFileName);
-
-                if(command(newFileName, lastDir) == 0) { //Checks for commands
-
-                char dirRename[1000] = "";
-                char dirRenameOld[1000] = "";
-
-                strcpy(dirRenameOld, file_url);
-
-                strcpy(dirRename, dirname(dirRenameOld));
-                strcat(dirRename, "/");
-                strcat(dirRename, newFileName);
-                strcpy(newFileName, dirRename);
-
-                int renameResult = rename(file_url, newFileName);
-
-                if(renameResult == 0) {
-                    text_color(COLOR_GREEN);
-                    printf("File has been renamed.");
-                    text_color(COLOR_WHITE);
-                } else {
-                    text_color(COLOR_RED);
-                    printf("File has not been renamed.");
-                    text_color(COLOR_WHITE);
-                }
-
-                text_color(COLOR_YELLOW);
-                printf("\n\nPress any key to continue.");
-                text_color(COLOR_WHITE);
-                getch();
-                }
-                }
-
-                break;
-
-            case 10: //Copy file
+            case 8: //Copy file
                 printf("\n\n\nCopy file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -421,7 +371,7 @@ int main(void) {
 
                 break;
 
-            case 12: //Delete file
+            case 10: //Delete file
                 printf("\n\n\nDelete file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -465,7 +415,57 @@ int main(void) {
 
                 break;
 
-            case 13: //Run file
+            case 11: //Rename file or directory
+                printf("\n\n\nRename directory or file: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks for commands
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+
+                char newFileName[1000] = "";
+
+                printf("\n\nNew file name: %s",lastDir); //Gets new file name from user
+                scanf("%d",&newFileName);
+                gets(newFileName);
+
+                if(command(newFileName, lastDir) == 0) { //Checks for commands
+
+                char dirRename[1000] = "";
+                char dirRenameOld[1000] = "";
+
+                strcpy(dirRenameOld, file_url);
+
+                strcpy(dirRename, dirname(dirRenameOld));
+                strcat(dirRename, "/");
+                strcat(dirRename, newFileName);
+                strcpy(newFileName, dirRename);
+
+                int renameResult = rename(file_url, newFileName);
+
+                if(renameResult == 0) {
+                    text_color(COLOR_GREEN);
+                    printf("File has been renamed.");
+                    text_color(COLOR_WHITE);
+                } else {
+                    text_color(COLOR_RED);
+                    printf("File has not been renamed.");
+                    text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+                }
+
+                break;
+
+            case 12: //Run file
                 printf("\n\n\nRun file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -500,7 +500,7 @@ int main(void) {
 
                 break;
 
-            case 14: //Properties
+            case 13: //Properties
                 printf("\n\n\nOpen properties from: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -559,7 +559,7 @@ int main(void) {
 
                 break;
 
-            case 15: //About
+            case 14: //About
                 printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -567,7 +567,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 16: //Help
+            case 15: //Help
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -575,7 +575,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 17: //Close
+            case 16: //Close
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

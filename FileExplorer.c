@@ -72,16 +72,13 @@ int main(void) {
 
 
 
-
-
-
     while(action!=16) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Cut directory\n\t5. Delete directory\n\t6. Open file\n\t");
-        printf("7. Create file\n\t8. Copy file\n\t9. Cut file\n\t10. Delete file\n\t11. Rename directory or file\n\t12. Run file\n\t13. File or directory properties\n\t14. About\n\t15. Help\n\t16. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t");
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Cut directory\n\t5. Delete directory\n\t6. Open file\n\t",lastDir);
-        printf("7. Create file\n\t8. Copy file\n\t9. Cut file\n\t10. Delete file\n\t11. Rename directory or file\n\t12. Run file\n\t13. File or directory properties\n\t14. About\n\t15. Help\n\t16. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
+        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -194,15 +191,16 @@ int main(void) {
                 strcpy(lastDir, file_url);
 
                 chdir(lastDir); //Sets current working directory
+                getcwd(cwd, 1000);
 
                 if (stat(file_url, &st) == -1) { //Checks if directory exists
                     mkdir(file_url); //Creates new directory if directory does not exist
                     text_color(COLOR_GREEN);
-                    printf("\nCreated directory '%s'.",getcwd(lastDir, 1000));
+                    printf("\nCreated directory '%s'.",file_url);
                     text_color(COLOR_WHITE);
                 } else {
                     text_color(COLOR_RED);
-                    printf("\nDirectory '%s' already exists.",getcwd(lastDir, 1000));
+                    printf("\nDirectory '%s' already exists.",file_url);
                     text_color(COLOR_WHITE);
                 }
 
@@ -214,7 +212,51 @@ int main(void) {
 
                 break;
 
-            case 6: //Open file
+            case 4: //Delete directory
+                printf("\n\n\nDelete directory: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks for commands
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile);
+
+                char decision;
+                text_color(COLOR_RED);
+                printf("\nAre you sure to delete file '%s'? (Y/N)\n",file_url); //Ask user if he wants to really delete file
+                text_color(COLOR_WHITE);
+                scanf(" %c",&decision);
+
+                if(decision == 'y' || decision == 'Y') { //Checking users decision
+                        int del = remove(file_url); //Deletes file is 'y'
+                        if (!del) {
+                            text_color(COLOR_GREEN);
+                            printf("\nFile '%s' was deleted.",file_url);
+                            text_color(COLOR_WHITE);
+                    }else{
+                        text_color(COLOR_RED);
+                        printf("\nFile '%s' was not deleted.",file_url);
+                        text_color(COLOR_WHITE);
+                    }
+                }else if(decision == 'n' || decision == 'N') {
+                    text_color(COLOR_GREEN);
+                    printf("\nFile '%s' has not deleted.",file_url);
+                    text_color(COLOR_WHITE);
+                }
+
+
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+
+                break;
+
+            case 5: //Open file
                 printf("\n\n\nOpen file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -231,7 +273,6 @@ int main(void) {
                     text_color(COLOR_RED);
                     printf("\nUnable to find file '%s'.\n",file_url);
                     text_color(COLOR_WHITE);
-                    strcpy(lastDir, "");
                 } else {
                 text_color(COLOR_GREEN);
                 printf("\nOpened file: %s",file_url);
@@ -260,7 +301,7 @@ int main(void) {
 
                 break;
 
-            case 7: //Create file
+            case 6: //Create file
                 printf("\n\n\nCreate file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -277,7 +318,6 @@ int main(void) {
                     text_color(COLOR_RED);
                     printf("\nUnable to create file '%s'.\n",file_url);
                     text_color(COLOR_WHITE);
-                    strcpy(lastDir, "");
                 } else {
                 text_color(COLOR_GREEN);
                 printf("\nCreated file: %s",file_url);
@@ -302,7 +342,7 @@ int main(void) {
 
                 break;
 
-            case 8: //Copy file
+            case 7: //Copy file
                 printf("\n\n\nCopy file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -328,7 +368,7 @@ int main(void) {
 
                 strcpy(file_url, "");
 
-                printf("\nCopy file to file: " );
+                printf("\nCopy file to file URL: " );
                 scanf("%s",&file_url);
 
                 if(command(file_url, lastDir) == 0) { //Checks for commands
@@ -371,7 +411,7 @@ int main(void) {
 
                 break;
 
-            case 10: //Delete file
+            case 8: //Delete file
                 printf("\n\n\nDelete file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -384,7 +424,7 @@ int main(void) {
 
                 char decision;
                 text_color(COLOR_RED);
-                printf("\nAre you sure to delete file '%s'? (YES/NO)\n",file_url); //Ask user if he wants to really delete file
+                printf("\nAre you sure to delete file '%s'? (Y/N)\n",file_url); //Ask user if he wants to really delete file
                 text_color(COLOR_WHITE);
                 scanf(" %c",&decision);
 
@@ -415,7 +455,47 @@ int main(void) {
 
                 break;
 
-            case 11: //Rename file or directory
+            case 9: //Cut directory or file
+                printf("\n\n\nCut directory or file: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) == 0) { //Checks for commands
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+
+                char newFileName[1000] = "";
+
+                printf("\n\nCut to new URL: %s",lastDir); //Gets new file name from user
+                scanf("%d",&newFileName);
+                gets(newFileName);
+
+                if(command(newFileName, lastDir) == 0) { //Checks for commands
+
+                int renameResult = rename(file_url, newFileName);
+
+                if(renameResult == 0) {
+                    text_color(COLOR_GREEN);
+                    printf("File has been moved.");
+                    text_color(COLOR_WHITE);
+                } else {
+                    text_color(COLOR_RED);
+                    printf("File has not been moved.");
+                    text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+                }
+                }
+
+                break;
+
+            case 10: //Rename file or directory
                 printf("\n\n\nRename directory or file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -465,7 +545,7 @@ int main(void) {
 
                 break;
 
-            case 12: //Run file
+            case 11: //Run file
                 printf("\n\n\nRun file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -500,7 +580,7 @@ int main(void) {
 
                 break;
 
-            case 13: //Properties
+            case 12: //Properties
                 printf("\n\n\nOpen properties from: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -511,8 +591,6 @@ int main(void) {
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
-                chdir(file_url); //Sets current working dir
-
                 text_color(COLOR_GREEN);
                 printf("\nOpened properties: %s",file_url);
                 text_color(COLOR_WHITE);
@@ -520,7 +598,7 @@ int main(void) {
                 text_color(COLOR_LIGHT_BLUE);
                 text_color(COLOR_WHITE);
 
-                printf("URL:\t\t\t\t%s\n",getcwd(cwd, 1000));
+                printf("URL:\t\t\t\t%s\n",file_url);
 
                 char time[100] = "";
                 struct stat stats;
@@ -559,7 +637,7 @@ int main(void) {
 
                 break;
 
-            case 14: //About
+            case 13: //About
                 printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -567,7 +645,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 15: //Help
+            case 14: //Help
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -575,7 +653,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 16: //Close
+            case 15: //Close
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

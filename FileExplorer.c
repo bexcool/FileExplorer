@@ -68,20 +68,20 @@ int main(void) {
 
 
 
-    //TODO: ADD COMMENTS, ADD DIR RENAME, FILE RENAME AND CHECK IF LAST CHAR FROM URL IS / IF NOT ADD /
+    //TODO: ADD DIR RENAME AND CHECK IF LAST CHAR FROM URL IS / IF NOT ADD /
 
 
 
 
 
 
-    while(action!=15) {
+    while(action!=16) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Delete directory\n\t6. Open file\n\t");
-        printf("7. Create file\n\t8. Rename file\n\t9. Copy file\n\t10. Delete file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Cut directory\n\t6. Delete directory\n\t7. Open file\n\t");
+        printf("8. Create file\n\t9. Rename file\n\t10. Copy file\n\t11. Cut file\n\t12. Delete file\n\t13. Run file\n\t14. File or directory properties\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Delete directory\n\t6. Open file\n\t",lastDir);
-        printf("7. Create file\n\t8. Rename file\n\t9. Copy file\n\t10. Delete file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Rename directory\n\t4. Copy directory\n\t5. Cut directory\n\t6. Delete directory\n\t7. Open file\n\t",lastDir);
+        printf("8. Create file\n\t9. Rename file\n\t10. Copy file\n\t11. Cut file\n\t12. Delete file\n\t13. Run file\n\t14. File or directory properties\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -95,6 +95,10 @@ int main(void) {
 
                 strcat(lastDir, directory_url);
                 strcpy(directory_url, lastDir); //Copy strings into directory_url
+
+                if(directory_url[strlen(directory_url)-1] != '/' || directory_url[strlen(directory_url)-1] != '\\') { //Checks if last character from URL is '/' or '\'
+                    strcat(directory_url, "/");
+                }
 
                 directory = opendir(directory_url); //Opens directory
 
@@ -210,7 +214,7 @@ int main(void) {
 
                 break;
 
-            case 6: //Open file
+            case 7: //Open file
                 printf("\n\n\nOpen file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -256,7 +260,7 @@ int main(void) {
 
                 break;
 
-            case 7: //Create file
+            case 8: //Create file
                 printf("\n\n\nCreate file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -298,7 +302,7 @@ int main(void) {
 
                 break;
 
-            case 8: //Rename file
+            case 9: //Rename file
                 printf("\n\n\nRename file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -311,11 +315,21 @@ int main(void) {
 
                 char newFileName[1000] = "";
 
-                printf("\n\n\nNew file name: %s",lastDir); //Gets new file name from user
+                printf("\n\nNew file name: %s",lastDir); //Gets new file name from user
                 scanf("%d",&newFileName);
                 gets(newFileName);
 
-                strcat(chdir("."), newFileName);
+                if(command(newFileName, lastDir) == 0) { //Checks for commands
+
+                char dirRename[1000] = "";
+                char dirRenameOld[1000] = "";
+
+                strcpy(dirRenameOld, file_url);
+
+                strcpy(dirRename, dirname(dirRenameOld));
+                strcat(dirRename, "/");
+                strcat(dirRename, newFileName);
+                strcpy(newFileName, dirRename);
 
                 int renameResult = rename(file_url, newFileName);
 
@@ -334,10 +348,11 @@ int main(void) {
                 text_color(COLOR_WHITE);
                 getch();
                 }
+                }
 
                 break;
 
-            case 9: //Copy file
+            case 10: //Copy file
                 printf("\n\n\nCopy file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -406,7 +421,7 @@ int main(void) {
 
                 break;
 
-            case 10: //Delete file
+            case 12: //Delete file
                 printf("\n\n\nDelete file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -450,7 +465,7 @@ int main(void) {
 
                 break;
 
-            case 11: //Run file
+            case 13: //Run file
                 printf("\n\n\nRun file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -485,7 +500,7 @@ int main(void) {
 
                 break;
 
-            case 12: //Properties
+            case 14: //Properties
                 printf("\n\n\nOpen properties from: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
@@ -544,7 +559,7 @@ int main(void) {
 
                 break;
 
-            case 13: //About
+            case 15: //About
                 printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -552,7 +567,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 14: //Commands
+            case 16: //Help
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -560,7 +575,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 15: //Close
+            case 17: //Close
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

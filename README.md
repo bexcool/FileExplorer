@@ -52,13 +52,22 @@ Get a version from https://github.com/bexcool/FileExplorer/releases
 
 You can use this application as your default file browser! It is fully functional (We need to add copying directories - for now, you can just create new directory with same name and copy files there) file explorer. It works like your normal file explorer - explore files, create files, read files, run apps and more!
 
-If you're trying to copy file or directory, you need to type new location with file name (this is same for cut): 
-Copy from: D:/myDir/copiedFile.txt
-Copy to: D:/myDirectory2/copiedFile.txt
+If you're trying to copy file or directory, you need to type new location with file name (this is same for cut):
+Copy files:
+```
+Copy file: D:/myDir/copiedFile.txt
 
-For directories:
-Cut from: D:/myDir/dirToCpy
-Cut to: D:/myDirectory2/dirToCpy
+
+Copy file to file URL: : D:/myDirectory2/copiedFile.txt
+```
+
+Cut directories or files (we are showing directory):
+```
+Cut directory or file: D:/myDir/dirToCpy
+
+
+Cut to new URL: D:/myDirectory2/dirToCpy
+```
 
 
 

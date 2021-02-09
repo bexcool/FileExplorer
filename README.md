@@ -58,7 +58,7 @@ Copy files:
 Copy file: D:/myDir/copiedFile.txt
 
 
-Copy file to file URL: : D:/myDirectory2/copiedFile.txt
+Copy file to file URL: D:/myDirectory2/copiedFile.txt
 ```
 
 Cut directories or files (we are showing directory):

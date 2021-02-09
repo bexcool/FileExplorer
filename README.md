@@ -1,4 +1,4 @@
-  <h3 align="center">File Explorer</h3>
+  <h1 align="center">File Explorer</h1>
 
   <p align="center">
     Useful links

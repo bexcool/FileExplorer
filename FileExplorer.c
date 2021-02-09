@@ -33,14 +33,16 @@ int main(void) {
     char lastDirBackup[1000] = "";
     char lastDirFile[1000] = "";
     char file_content[1000] = "";
-    char root[1000] = "$root";
-    char abort[1000] = "$abort";
     char file_textwrite[1000] = "";
     char file_copyURL[1000] = "";
-    char cwd[1000] = "";
+    char cwd[1000] = ""; //Current working directory
+    char newFileName[1000] = ""; //Renaming file variable
+
+    char DeleteFileDecision; //Decision while deleting file
 
     int action = 1;
-    int c;
+    int c; //Reading file character - using for putchar(c);
+    int renameResult; //Result from renaming file
 
     struct dirent *dir;
     struct stat filestat;
@@ -66,8 +68,6 @@ int main(void) {
 
 
 
-
-
     //TODO: ADD DIR RENAME AND CHECK IF LAST CHAR FROM URL IS / IF NOT ADD /
 
 
@@ -88,7 +88,7 @@ int main(void) {
                 scanf("%c", &directory_url);
                 gets(directory_url);
 
-                if(command(directory_url, lastDir) == 0) { //Check for commands
+                if(command(directory_url, lastDir) != 0)goto aborting_od; //Check for commands
 
                 strcat(lastDir, directory_url);
                 strcpy(directory_url, lastDir); //Copy strings into directory_url
@@ -173,7 +173,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_od: //Skipping by command
 
                 break;
 
@@ -183,7 +184,7 @@ int main(void) {
                 gets(file_url);
                 struct stat st = {0};
 
-                if(command(file_url, lastDir) == 0) {
+                if(command(file_url, lastDir) != 0)goto aborting_cd;
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -208,7 +209,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_cd: //Skipping by command
 
                 break;
 
@@ -217,7 +219,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_dd; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -230,7 +232,7 @@ int main(void) {
                 scanf(" %c",&decision);
 
                 if(decision == 'y' || decision == 'Y') { //Checking users decision
-                        int del = remove(file_url); //Deletes file is 'y'
+                        int del = remove_directory(file_url); //Deletes file is 'y'
                         if (!del) {
                             text_color(COLOR_GREEN);
                             printf("\nFile '%s' was deleted.",file_url);
@@ -252,7 +254,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_dd: //Skipping by command
 
                 break;
 
@@ -261,7 +264,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_of; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -297,7 +300,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_of: //Skipping by command
 
                 break;
 
@@ -306,7 +310,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_cf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -338,7 +342,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_cf: //Skipping by command
 
                 break;
 
@@ -351,7 +356,7 @@ int main(void) {
 
                 strcpy(file_url_first, file_url); //Copies strings
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_copyf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -371,7 +376,7 @@ int main(void) {
                 printf("\nCopy file to file URL: " );
                 scanf("%s",&file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_copyf; //Checks for commands
 
                 file_copydata = fopen(file_url, "w"); //Creates file
 
@@ -398,16 +403,15 @@ int main(void) {
                 fclose(file); //Closes old file
                 fclose(file_copydata); //Closes new file
                 }
-                } else {
-                    break; //Break case if second scan is a command
-                    }
+
                 }
 
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_copyf: //Skipping by command
 
                 break;
 
@@ -416,19 +420,18 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_delf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile);
 
-                char decision;
                 text_color(COLOR_RED);
                 printf("\nAre you sure to delete file '%s'? (Y/N)\n",file_url); //Ask user if he wants to really delete file
                 text_color(COLOR_WHITE);
-                scanf(" %c",&decision);
+                scanf(" %c",&DeleteFileDecision);
 
-                if(decision == 'y' || decision == 'Y') { //Checking users decision
+                if(DeleteFileDecision == 'y' || DeleteFileDecision == 'Y') { //Checking users decision
                         int del = remove(file_url); //Deletes file is 'y'
                         if (!del) {
                             text_color(COLOR_GREEN);
@@ -439,7 +442,7 @@ int main(void) {
                         printf("\nFile '%s' was not deleted.",file_url);
                         text_color(COLOR_WHITE);
                     }
-                }else if(decision == 'n' || decision == 'N') {
+                }else if(DeleteFileDecision == 'n' || DeleteFileDecision == 'N') {
                     text_color(COLOR_GREEN);
                     printf("\nFile '%s' has not deleted.",file_url);
                     text_color(COLOR_WHITE);
@@ -451,7 +454,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_delf: //Skipping by command
 
                 break;
 
@@ -460,7 +464,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_cutdf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -472,7 +476,7 @@ int main(void) {
                 scanf("%d",&newFileName);
                 gets(newFileName);
 
-                if(command(newFileName, lastDir) == 0) { //Checks for commands
+                if(command(newFileName, lastDir) != 0)goto aborting_cutdf; //Checks for commands
 
                 int renameResult = rename(file_url, newFileName);
 
@@ -490,29 +494,27 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
-                }
+
+                aborting_cutdf: //Skipping by command
 
                 break;
 
-            case 10: //Rename file or directory
+            case 10: //Rename directory or file
                 printf("\n\n\nRename directory or file: %s",lastDir); //Gets URL from user
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_renamedf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
-                char newFileName[1000] = "";
-
                 printf("\n\nNew file name: %s",lastDir); //Gets new file name from user
                 scanf("%d",&newFileName);
                 gets(newFileName);
 
-                if(command(newFileName, lastDir) == 0) { //Checks for commands
+                if(command(newFileName, lastDir) != 0)goto aborting_renamedf; //Checks for commands
 
                 char dirRename[1000] = "";
                 char dirRenameOld[1000] = "";
@@ -524,7 +526,7 @@ int main(void) {
                 strcat(dirRename, newFileName);
                 strcpy(newFileName, dirRename);
 
-                int renameResult = rename(file_url, newFileName);
+                renameResult = rename(file_url, newFileName);
 
                 if(renameResult == 0) {
                     text_color(COLOR_GREEN);
@@ -540,8 +542,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
-                }
+
+                aborting_renamedf: //Skipping by command
 
                 break;
 
@@ -550,7 +552,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_runf; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -576,7 +578,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
-                }
+
+                aborting_runf:
 
                 break;
 
@@ -585,7 +588,7 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) == 0) { //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_propeties; //Checks for commands
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
@@ -622,7 +625,6 @@ int main(void) {
                 }
 
                 printf("\n");
-                }
 
                 /*if(directory_url[strlen(directory_url)-1] == '.') { //Checks if last character from URL is '.'
                     strcpy(lastDir, lastDirBackup);
@@ -634,6 +636,8 @@ int main(void) {
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);
                 getch();
+
+                aborting_propeties:
 
                 break;
 

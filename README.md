@@ -38,6 +38,22 @@ Our File Explorer has good looking console UI - with colors and good text design
 Of course there are better file explorers, but at least you can get some inspiration from our code or you might like console applications.
 
 
+In our FileExplorer you can do these things:
+<ul>
+  <li>Open directory</li>
+  <li>Create directory</li>
+  <li>Copy directory (coming soon)</li>
+  <li>Delete directory</li>
+  <li>Open file</li>
+  <li>Create file</li>
+  <li>Copy file</li>
+  <li>Delete file</li>
+  <li>Cut directory or file</li>
+  <li>Rename directory or file</li>
+  <li>Run file</li>
+  <li>Show file or directory properties</li>
+</ul>
+
 
 ## Installation
 

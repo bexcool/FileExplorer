@@ -386,7 +386,7 @@ int main(void) {
 
                 strcpy(file_url, "");
 
-                printf("\nCopy file to file URL: " );
+                printf("\nCopy file to new file URL: " );
                 scanf("%s",&file_url);
 
                 if(command(file_url, lastDir) != 0)goto aborting_copyf; //Checks for commands

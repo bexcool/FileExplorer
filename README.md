@@ -1,16 +1,13 @@
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">File Explorer</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Useful links
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://bexcool.eu">BeXCool Web</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/bexcool/FileExplorer/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/bexcool/FileExplorer/issues">Request Feature</a>
   </p>
 </p>
 
@@ -38,7 +35,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li> 
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -133,7 +129,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the APACHE 2.0 License. See `LICENSE.md` for more information.
 
 
 

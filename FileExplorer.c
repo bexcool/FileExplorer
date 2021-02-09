@@ -74,10 +74,10 @@ int main(void) {
 
     while(action!=16) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t");
+        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t");
         printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
+        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
         printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
@@ -93,8 +93,8 @@ int main(void) {
                 strcat(lastDir, directory_url);
                 strcpy(directory_url, lastDir); //Copy strings into directory_url
 
-                if(directory_url[strlen(directory_url)-1] != '/' || directory_url[strlen(directory_url)-1] != '\\' && directory_url[strlen(directory_url)-1] != '%') { //Checks if last character from URL is '/' or '\'
-                    strcat(directory_url, "/");
+                if(directory_url[strlen(directory_url)-1] != '/' && directory_url[strlen(directory_url)-1] != '\\' && directory_url[strlen(directory_url)-1] != '%') { //Checks if last character from URL is '/' or '\'
+                            strcat(directory_url, "/");
                 }
 
                 directory = opendir(directory_url); //Opens directory
@@ -103,7 +103,7 @@ int main(void) {
                     text_color(COLOR_RED);
                     printf("\nUnable to find directory '%s'.\n",directory_url);
                     text_color(COLOR_WHITE);
-                    strcpy(lastDir, "");
+                    strcpy(lastDir, lastDirBackup);
                 } else {
 
                 text_color(COLOR_GREEN);
@@ -211,6 +211,19 @@ int main(void) {
                 getch();
 
                 aborting_cd: //Skipping by command
+
+                break;
+
+            case 3: //Copy directory
+
+                text_color(COLOR_RED);
+                printf("\n\n\nCopying directory is not available at the moment.");
+                text_color(COLOR_WHITE);
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
 
                 break;
 
@@ -594,6 +607,16 @@ int main(void) {
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
+                struct stat stats;
+
+                stat(file_url, &stats);
+
+                if(stats.st_mode == 16895 || stats.st_mode == 16749){
+                    if(file_url[strlen(file_url)-1] != '/' && file_url[strlen(file_url)-1] != '\\' && file_url[strlen(file_url)-1] != '%') { //Checks if last character from URL is '/' or '\'
+                        strcat(file_url, "/");
+                    }
+                }
+
                 text_color(COLOR_GREEN);
                 printf("\nOpened properties: %s",file_url);
                 text_color(COLOR_WHITE);
@@ -604,9 +627,7 @@ int main(void) {
                 printf("URL:\t\t\t\t%s\n",file_url);
 
                 char time[100] = "";
-                struct stat stats;
 
-                stat(file_url, &stats);
                 strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_mtime)); //Prints times from file/directory
                 printf("Last modified time:\t\t%s\n",time);
                 strftime(time, 100, "%d/%m/%Y %H:%M:%S", localtime(&stats.st_atime));
@@ -624,11 +645,11 @@ int main(void) {
                     printf("Type:\t\t\t\tUNKNOWN (%d)", stats.st_mode);
                 }
 
-                printf("\n");
+                if(stats.st_size > 0) { //If is higher than 0, print size
+                            printf("\nSize:\t\t\t\t%.2fKb (%d bytes)", (float)stats.st_size/1000, stats.st_size);
+                }
 
-                /*if(directory_url[strlen(directory_url)-1] == '.') { //Checks if last character from URL is '.'
-                    strcpy(lastDir, lastDirBackup);
-                }*/
+                printf("\n");
 
                 strcpy(lastDirBackup, lastDir); //Copies last directory to last directory backup
 

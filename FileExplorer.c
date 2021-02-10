@@ -619,6 +619,8 @@ int main(void) {
                     }
                 }
 
+                stat(file_url, &stats);
+
                 text_color(COLOR_GREEN);
                 printf("\nOpened properties: %s",file_url);
                 text_color(COLOR_WHITE);

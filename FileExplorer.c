@@ -298,11 +298,13 @@ int main(void) {
                 printf("----------------------------------------------------------\n\n");
                 text_color(COLOR_WHITE);
 
-                if (file) { //Printing file content character by character
-                    while ((c = getc(file)) != EOF)
-                    putchar(c);
-                    fclose(file);
+                char fileText[5000] = "";
+
+                while(fgets(fileText, sizeof(fileText), file) != NULL) { //Prints line by line from file
+                fputs(fileText, stdout);
                 }
+
+                fclose(file);
 
                 text_color(COLOR_LIGHT_BLUE);
                 printf("\n\n----------------------------------------------------------");
@@ -574,7 +576,10 @@ int main(void) {
                 printf("\n");
 
                 text_color(COLOR_RED);
-                int result=system(file_url); //Runs file/program
+                int result;
+                    system("ls -l &");
+                    result=system(file_url); //Runs file/program
+
                 text_color(COLOR_WHITE);
 
                 if(result == 1) { //Error handler

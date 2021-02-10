@@ -2,9 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="license.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="colors.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10985" topLine="158" />
+			<Cursor1 position="791" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="FileExplorer.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8627" topLine="196" />
 		</Cursor>
 	</File>
 	<File name="fe_functions.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -12,14 +17,9 @@
 			<Cursor1 position="1954" topLine="53" />
 		</Cursor>
 	</File>
-	<File name="FileExplorer.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="license.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="22443" topLine="565" />
-		</Cursor>
-	</File>
-	<File name="colors.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="791" topLine="4" />
+			<Cursor1 position="10985" topLine="158" />
 		</Cursor>
 	</File>
 	<Target name="Debug" top="FileExplorer.c">

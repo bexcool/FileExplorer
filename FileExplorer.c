@@ -402,13 +402,10 @@ int main(void) {
                     strcpy(lastDir, "");
                 } else {
 
-                fseek(file, 0L, SEEK_END); //File pointer at end of file
-                int pos = ftell(file); //Gets file character size
-                fseek(file, 0L, SEEK_SET); //File pointer set at start
+                char fileText[5000] = "";
 
-                while (pos--) {
-                    c = fgetc(file);  //Copying file character by character
-                    fputc(c, file_copydata);
+                while(fgets(fileText, sizeof(fileText), file) != NULL) { //Prints line by line from file
+                fputs(fileText, file_copydata);
                 }
 
                 text_color(COLOR_GREEN);

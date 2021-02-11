@@ -692,7 +692,7 @@ int main(void) {
                     }
 
                     for(int i = 0; (i < strlen(enstr) && enstr[i] != '\0'); i++) {
-                        enstr[i] = enstr[i] + 7; //Added 3 to character
+                        enstr[i] = enstr[i] + 7; //Added 7 to character
                     }
                     fclose(file);
                     file = fopen(file_url, "w");
@@ -741,7 +741,7 @@ int main(void) {
                     }
 
                     for(int i = 0; (i < strlen(destr) && destr[i] != '\0'); i++) {
-                        destr[i] = destr[i] - 7; //Added 3 to character
+                        destr[i] = destr[i] - 7; //Removed 7 to character
                     }
                     fclose(file);
                     file = fopen(file_url, "w");

@@ -37,6 +37,7 @@ int main(void) {
     char file_copyURL[1000] = "";
     char cwd[1000] = ""; //Current working directory
     char newFileName[1000] = ""; //Renaming file variable
+    char decision_encrypt[10] = "";
 
     char DeleteFileDecision; //Decision while deleting file
 
@@ -72,13 +73,13 @@ int main(void) {
 
 
 
-    while(action!=16) {
+    while(action!=17) {
         if(strcmp(lastDir, "") == 0){
-        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t");
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t6. Create file\n\t7. Copy file\n\t");
+        printf("8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. Encrypt text file\n\t14. Decrypt text file\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
         } else {
-        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t",lastDir);
-        printf("6. Create file\n\t7. Copy file\n\t8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. About\n\t14. Help\n\t15. Close application\n\nEnter number: ");
+        printf("\n\n\nLast opened directory: %s\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t6. Create file\n\t7. Copy file\n\t",lastDir);
+        printf("8. Delete file\n\t9. Cut directory or file\n\t10. Rename directory or file\n\t11. Run file\n\t12. File or directory properties\n\t13. Encrypt text file\n\t14. Decrypt text file\n\t15. About\n\t16. Help\n\t17. Close application\n\nEnter number: ");
         }
         scanf("%d",&action);
 
@@ -383,7 +384,6 @@ int main(void) {
                     text_color(COLOR_RED);
                     printf("\nUnable to find file '%s'.\n",file_url);
                     text_color(COLOR_WHITE);
-                    strcpy(lastDir, "");
                 } else {
 
                 strcpy(file_url, "");
@@ -399,7 +399,6 @@ int main(void) {
                     text_color(COLOR_RED);
                     printf("\nUnable to copy file '%s' to file '%s'.\n",file_url_first, file_url);
                     text_color(COLOR_WHITE);
-                    strcpy(lastDir, "");
                 } else {
 
                 char fileText[5000] = "";
@@ -666,7 +665,107 @@ int main(void) {
 
                 break;
 
-            case 13: //About
+            case 13: //Encryption
+                printf("\nFile to encrypt: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) != 0)goto aborting_encrypting; //Checks for commands
+
+                char fileenstr[5000] = "";
+                char enstr[5000] = "";
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+
+                file = fopen(file_url, "r");
+
+                if(file == NULL) { //Error handler
+                    text_color(COLOR_RED);
+                    printf("\nUnable to find file '%s'.\n",file_url);
+                    text_color(COLOR_WHITE);
+                    fclose(file);
+                } else {
+                    while(fgets(fileenstr, sizeof(fileenstr), file) != NULL) { //Prints line by line from file
+                        strcat(enstr, fileenstr);
+                    }
+
+                    for(int i = 0; (i < strlen(enstr) && enstr[i] != '\0'); i++) {
+                        enstr[i] = enstr[i] + 7; //Added 3 to character
+                    }
+                    fclose(file);
+                    file = fopen(file_url, "w");
+
+                    fputs(enstr, file);
+                    fclose(file);
+
+                    text_color(COLOR_GREEN);
+                    printf("\nFile '%s' has been encrypted.\n",file_url);
+                    text_color(COLOR_WHITE);
+
+                    //rename(file_url, )
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+
+                aborting_encrypting: //Skipping by command
+
+                break;
+
+            case 14: //Decryption
+                printf("\nFile to decrypt: %s",lastDir); //Gets URL from user
+                scanf("%d",&file_url);
+                gets(file_url);
+
+                if(command(file_url, lastDir) != 0)goto aborting_decrypting; //Checks for commands
+
+                char filedestr[5000] = "";
+                char destr[5000] = "";
+
+                strcpy(lastDirFile, lastDir);
+                strcat(lastDirFile, file_url);
+                strcpy(file_url, lastDirFile); //Copies strings
+
+                file = fopen(file_url, "r");
+
+                if(file == NULL) { //Error handler
+                    text_color(COLOR_RED);
+                    printf("\nUnable to find file '%s'.\n",file_url);
+                    text_color(COLOR_WHITE);
+                    fclose(file);
+                } else {
+                    while(fgets(filedestr, sizeof(filedestr), file) != NULL) { //Prints line by line from file
+                        strcat(destr, filedestr);
+                    }
+
+                    for(int i = 0; (i < strlen(destr) && destr[i] != '\0'); i++) {
+                        destr[i] = destr[i] - 7; //Added 3 to character
+                    }
+                    fclose(file);
+                    file = fopen(file_url, "w");
+
+                    fputs(destr, file);
+                    fclose(file);
+
+                    text_color(COLOR_GREEN);
+                    printf("\nFile '%s' has been encrypted.\n",file_url);
+                    text_color(COLOR_WHITE);
+                }
+
+                text_color(COLOR_YELLOW);
+                printf("\n\nPress any key to continue.");
+                text_color(COLOR_WHITE);
+                getch();
+
+                aborting_decrypting: //Skipping by command
+
+                break;
+
+            case 15: //About
                 printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -674,7 +773,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 14: //Help
+            case 16: //Help
                 printf("\n\n\nList of commands (type them after selecting action by number):\n\t$root - Removes current URL and aborts action.\n\t$abort - Aborts current action.");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
@@ -682,7 +781,7 @@ int main(void) {
                 getch();
                 break;
 
-            case 15: //Close
+            case 17: //Close
                 text_color(COLOR_RED);
                 printf("\nClosing application...");
                 text_color(COLOR_WHITE);

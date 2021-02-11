@@ -67,12 +67,6 @@ int main(void) {
     printf("\n-----------------------------");
     text_color(COLOR_WHITE);
 
-
-
-    //TODO: ADD DIR RENAME AND CHECK IF LAST CHAR FROM URL IS / IF NOT ADD /
-
-
-
     while(action!=17) {
         if(strcmp(lastDir, "") == 0){
         printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t6. Create file\n\t7. Copy file\n\t");

@@ -50,6 +50,7 @@ In our FileExplorer you can do these things:
   <li>Delete file</li>
   <li>Cut directory or file</li>
   <li>Rename directory or file</li>
+  <li>Encrypt or decrypt text file</li>
   <li>Run file</li>
   <li>Show file or directory properties</li>
 </ul>

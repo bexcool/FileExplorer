@@ -701,10 +701,8 @@ int main(void) {
                     fclose(file);
 
                     text_color(COLOR_GREEN);
-                    printf("\nFile '%s' has been encrypted.\n",file_url);
+                    printf("\nFile '%s' has been encrypted.",file_url);
                     text_color(COLOR_WHITE);
-
-                    //rename(file_url, )
                 }
 
                 text_color(COLOR_YELLOW);
@@ -752,7 +750,7 @@ int main(void) {
                     fclose(file);
 
                     text_color(COLOR_GREEN);
-                    printf("\nFile '%s' has been encrypted.\n",file_url);
+                    printf("\nFile '%s' has been encrypted.",file_url);
                     text_color(COLOR_WHITE);
                 }
 
@@ -766,7 +764,7 @@ int main(void) {
                 break;
 
             case 15: //About
-                printf("\n\n\nFile explorer 1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
+                printf("\n\n\nFile explorer 1.1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);

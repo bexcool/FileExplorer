@@ -572,9 +572,10 @@ int main(void) {
                 printf("\n");
 
                 text_color(COLOR_RED);
+
                 int result;
-                    system("ls -l &");
-                    result=system(file_url); //Runs file/program
+
+                result=system(file_url); //Runs file/program
 
                 text_color(COLOR_WHITE);
 

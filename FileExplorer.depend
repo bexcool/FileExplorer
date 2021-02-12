@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1613038148 source:f:\c projets\fileexplorer\fileexplorer.c
+1613151976 source:f:\c projets\fileexplorer\fileexplorer.c
 	<dirent.h>
 	<stdio.h>
 	<string.h>
@@ -10,14 +10,14 @@
 	<unistd.h>
 	"fe_functions.h"
 
-1612801954 f:\c projets\fileexplorer\fe_functions.h
+1613151339 f:\c projets\fileexplorer\fe_functions.h
 	<stdio.h>
 	<time.h>
 	<string.h>
 	<windows.h>
 	"colors.h"
 
-1612780843 f:\c projets\fileexplorer\colors.h
+1613136931 f:\c projets\fileexplorer\colors.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>

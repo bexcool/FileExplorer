@@ -91,3 +91,76 @@ int remove_directory(const char *path) {
 
    return r;
 }
+
+char* get_fileextension_from_path(char* filepath)	{
+
+	char *filename = (char*)calloc(1, sizeof(filepath));
+	filename = (strrchr(filepath, '.'))+1;
+	//printf("fileextension: %s\n", filename);
+
+	return filename;
+
+}
+
+char* get_filename_from_path(char* filepath)	{
+
+	char *filename = (char*)calloc(1, sizeof(filepath));
+	filename = (strrchr(filepath, '/'))+1;
+	//printf("filename: %s\n", filename);
+
+	return filename;
+
+}
+
+char *file_remove_extension(char* myStr) {
+    char *retStr;
+    char *lastExt;
+    if (myStr == NULL) return NULL;
+    if ((retStr = malloc (strlen (myStr) + 1)) == NULL) return NULL;
+    strcpy (retStr, myStr);
+    lastExt = strrchr (retStr, '.');
+    if (lastExt != NULL)
+        *lastExt = '\0';
+    return retStr;
+}
+
+char *str_replace(char *orig, char *rep, char *with) {
+    char *result; // the return string
+    char *ins;    // the next insert point
+    char *tmp;    // varies
+    int len_rep;  // length of rep (the string to remove)
+    int len_with; // length of with (the string to replace rep with)
+    int len_front; // distance between rep and end of last rep
+    int count;    // number of replacements
+
+    // sanity checks and initialization
+    if (!orig || !rep)
+        return NULL;
+    len_rep = strlen(rep);
+    if (len_rep == 0)
+        return NULL; // empty rep causes infinite loop during count
+    if (!with)
+        with = "";
+    len_with = strlen(with);
+
+    // count the number of replacements needed
+    ins = orig;
+    for (count = 0; tmp = strstr(ins, rep); ++count) {
+        ins = tmp + len_rep;
+    }
+
+    tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
+
+    if (!result)
+        return NULL;
+
+    while (count--) {
+        ins = strstr(orig, rep);
+        len_front = ins - orig;
+        tmp = strncpy(tmp, orig, len_front) + len_front;
+        tmp = strcpy(tmp, with) + len_with;
+        orig += len_front + len_rep; // move to next "end of rep"
+    }
+    strcpy(tmp, orig);
+    return result;
+}

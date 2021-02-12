@@ -67,6 +67,10 @@ int main(void) {
     printf("\n-----------------------------");
     text_color(COLOR_WHITE);
 
+    chdir("F:/dokumenty/vyhry2.txt");
+
+                printf("%s",getcwd(cwd, 1000));
+
     while(action!=17) {
         if(strcmp(lastDir, "") == 0){
         printf("\n\n\nLast opened directory: You do not have any opened directory.\n\nWhat do you want to do?\n\n\t1. Open directory\n\t2. Create directory\n\t3. Copy directory (coming soon)\n\t4. Delete directory\n\t5. Open file\n\t6. Create file\n\t7. Copy file\n\t");
@@ -667,25 +671,20 @@ int main(void) {
 
                 if(command(file_url, lastDir) != 0)goto aborting_encrypting; //Checks for commands
 
+                if(file_url[strlen(file_url)-3] != 't' && file_url[strlen(file_url)-2] != 'x' && file_url[strlen(file_url)-1] != 't') {
+                    text_color(COLOR_RED);
+                    printf("\nFile '%s' is not a text file.\n",file_url);
+                    text_color(COLOR_WHITE);
+                } else {
+
                 char fileenstr[5000] = "";
                 char enstr[5000] = "";
-                char fileenname[1000] = "";
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
                 file = fopen(file_url, "r");
-
-                /*
-                Trying to change file extension
-
-                chdir(file_url); //Sets current working dir
-                //getcwd(cwd, 1000)
-
-                strcpy(fileenname, getcwd(cwd, 1000));
-                strcat
-                */
 
                 if(file == NULL) { //Error handler
                     text_color(COLOR_RED);
@@ -709,6 +708,27 @@ int main(void) {
                     text_color(COLOR_GREEN);
                     printf("\nFile '%s' has been encrypted.",file_url);
                     text_color(COLOR_WHITE);
+
+                    char newFileEnName[1000] = "";
+
+                    strcpy(newFileEnName, str_replace(file_url, get_filename_from_path(file_url), ""));
+                    strcat(newFileEnName, get_filename_from_path(file_remove_extension(file_url)));
+                    strcat(newFileEnName, ".encf");
+
+                    renameResult = rename(file_url, newFileEnName); //Changing file name
+
+                    if(renameResult == 0) {
+                    text_color(COLOR_GREEN);
+                    printf("\nFile has been renamed to '%s'.",get_filename_from_path(newFileEnName));
+                    text_color(COLOR_WHITE);
+                    } else {
+                    text_color(COLOR_RED);
+                    printf("\nFile has not been renamed to '%s'.",get_filename_from_path(newFileEnName));
+                    text_color(COLOR_WHITE);
+                    }
+
+                }
+
                 }
 
                 text_color(COLOR_YELLOW);
@@ -725,7 +745,13 @@ int main(void) {
                 scanf("%d",&file_url);
                 gets(file_url);
 
-                if(command(file_url, lastDir) != 0)goto aborting_decrypting; //Checks for commands
+                if(command(file_url, lastDir) != 0)goto aborting_decrypting; //Checks for commands enc
+
+                if(file_url[strlen(file_url)-4] != 'e' && file_url[strlen(file_url)-3] != 'n' && file_url[strlen(file_url)-2] != 'c' && file_url[strlen(file_url)-1] != 'f') {
+                    text_color(COLOR_RED);
+                    printf("\nFile '%s' is not encrypted.\n",file_url);
+                    text_color(COLOR_WHITE);
+                } else {
 
                 char filedestr[5000] = "";
                 char destr[5000] = "";
@@ -735,6 +761,8 @@ int main(void) {
                 strcpy(file_url, lastDirFile); //Copies strings
 
                 file = fopen(file_url, "r");
+
+
 
                 if(file == NULL) { //Error handler
                     text_color(COLOR_RED);
@@ -756,8 +784,29 @@ int main(void) {
                     fclose(file);
 
                     text_color(COLOR_GREEN);
-                    printf("\nFile '%s' has been encrypted.",file_url);
+                    printf("\nFile '%s' has been decrypted.",file_url);
                     text_color(COLOR_WHITE);
+
+                    char newFileEnName[1000] = "";
+
+                    strcpy(newFileEnName, str_replace(file_url, get_filename_from_path(file_url), ""));
+                    strcat(newFileEnName, get_filename_from_path(file_remove_extension(file_url)));
+                    strcat(newFileEnName, ".txt");
+
+                    renameResult = rename(file_url, newFileEnName); //Changing file name
+
+                    if(renameResult == 0) {
+                    text_color(COLOR_GREEN);
+                    printf("\nFile has been renamed to '%s'.",get_filename_from_path(newFileEnName));
+                    text_color(COLOR_WHITE);
+                    } else {
+                    text_color(COLOR_RED);
+                    printf("\nFile has not been renamed to '%s'.",get_filename_from_path(newFileEnName));
+                    text_color(COLOR_WHITE);
+                    }
+
+                }
+
                 }
 
                 text_color(COLOR_YELLOW);
@@ -770,7 +819,7 @@ int main(void) {
                 break;
 
             case 15: //About
-                printf("\n\n\nFile explorer 1.1.0\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
+                printf("\n\n\nFile explorer 1.1.1\nThis application is under APACHE LICENSE 2.0 - \"./LICENSE.md\"\nPetr Pavlik 2021 - BeXCool\n\nWeb: bexcool.eu\nEmail: bxc@post.cz");
                 text_color(COLOR_YELLOW);
                 printf("\n\nPress any key to continue.");
                 text_color(COLOR_WHITE);

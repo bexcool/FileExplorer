@@ -669,12 +669,23 @@ int main(void) {
 
                 char fileenstr[5000] = "";
                 char enstr[5000] = "";
+                char fileenname[1000] = "";
 
                 strcpy(lastDirFile, lastDir);
                 strcat(lastDirFile, file_url);
                 strcpy(file_url, lastDirFile); //Copies strings
 
                 file = fopen(file_url, "r");
+
+                /*
+                Trying to change file extension
+
+                chdir(file_url); //Sets current working dir
+                //getcwd(cwd, 1000)
+
+                strcpy(fileenname, getcwd(cwd, 1000));
+                strcat
+                */
 
                 if(file == NULL) { //Error handler
                     text_color(COLOR_RED);

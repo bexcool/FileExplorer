@@ -64,7 +64,7 @@ Get a version from https://github.com/bexcool/FileExplorer/releases
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-You can use this application as your default file browser! It is fully functional (We need to add copying directories - for now, you can just create new directory with same name and copy files there) file explorer. It works like your normal file explorer - explore files, create files, read files, run apps and more!
+You can use this application as your default file browser! It is fully functional (We need to add copying directories - for now, you can just create new directory with same name and copy files there) file explorer. It works like your normal file explorer - explore files, create files, read files, encrypt files, run apps and more!
 
 If you're trying to copy file or directory, you need to type new location with file name (this is same for cut):
 Copy files:
